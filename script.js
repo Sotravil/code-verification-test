@@ -2,33 +2,39 @@
 const usernameForm = document.getElementById("username-form");
 const phoneForm = document.getElementById("phone-form");
 const confirmationForm = document.getElementById("confirmation-form");
-const backButton = document.getElementById("back-button");
-const chat = document.getElementById("chat");
+const chatSection = document.getElementById("chat-section");
+const confirmationCodeInput = document.getElementById("confirmation-code-input");
+const confirmationCodeForm = document.getElementById("confirmation-code-form");
+const errorMessage = document.getElementById("error-message");
 const usernameHeader = document.getElementById("username-header");
 const phoneHeader = document.getElementById("phone-header");
-const errorMessage = document.getElementById("error-message");
+const confirmationUsername = document.getElementById("confirmation-username");
+const confirmationPhone = document.getElementById("confirmation-phone");
+const backButton = document.getElementById("back-button");
 
-// Set the initial state of the forms
-phoneForm.classList.add("hidden");
-confirmationForm.classList.add("hidden");
+let code;
 
-// Generate a 6-digit code and download the code file
 function generateCode() {
-  const code = Math.floor(100000 + Math.random() * 900000);
-  const file = new Blob([code.toString()], { type: "text/plain" });
-  const a = document.createElement("a");
-  const url = URL.createObjectURL(file);
-  a.href = url;
-  a.download = "code.txt";
-  document.body.appendChild(a);
-  a.click();
-  setTimeout(() => {
-    document.body.removeChild(a);
-    window.URL.revokeObjectURL(url);
-  }, 0);
+  // Generate a 6-digit code
+  code = Math.floor(100000 + Math.random() * 900000);
+
+  // Create a Blob object to save the code as a text file
+  const blob = new Blob([code], { type: "text/plain;charset=utf-8" });
+
+  // Create a temporary anchor element to download the file
+  const anchor = document.createElement("a");
+  anchor.download = "code.txt";
+  anchor.href = window.URL.createObjectURL(blob);
+  anchor.style.display = "none";
+  document.body.appendChild(anchor);
+
+  // Trigger a click event on the anchor element to download the file
+  anchor.click();
+
+  // Remove the anchor element
+  document.body.removeChild(anchor);
 }
 
-// Handle form submissions
 usernameForm.addEventListener("submit", (event) => {
   event.preventDefault();
   const username = event.target.elements.username.value;
@@ -51,41 +57,28 @@ phoneForm.addEventListener("submit", (event) => {
   phoneHeader.textContent = phoneNumber;
   generateCode();
   phoneForm.classList.add("hidden");
+  confirmationUsername.textContent = usernameHeader.textContent;
+  confirmationPhone.textContent = phoneHeader.textContent;
   confirmationForm.classList.remove("hidden");
 });
 
-confirmationForm.addEventListener("submit", (event) => {
-  event.preventDefault();
-  const code = event.target.elements.code.value;
-  if (code.trim() === "") {
-    errorMessage.textContent = "Please enter the confirmation code";
-    return;
-  }
-  // You can add your own logic to verify the code here
-  confirmationForm.classList.add("hidden");
-  chat.classList.remove("hidden");
-});
-
-// Handle back button click
 backButton.addEventListener("click", (event) => {
   event.preventDefault();
-  errorMessage.textContent = "";
   confirmationForm.classList.add("hidden");
   phoneForm.classList.remove("hidden");
 });
 
-// Handle message submission
-const messageForm = document.getElementById("message-form");
-const messageInput = document.getElementById("message-input");
-const messageList = document.getElementById("message-list");
-
-messageForm.addEventListener("submit", (event) => {
+confirmationCodeForm.addEventListener("submit", (event) => {
   event.preventDefault();
-  const message = messageInput.value.trim();
-  if (message !== "") {
-    const li = document.createElement("li");
-    li.textContent = message;
-    messageList.appendChild(li);
-    messageInput.value = "";
+  const confirmationCode = confirmationCodeInput.value;
+  if (confirmationCode.trim() === "") {
+    errorMessage.textContent = "Please enter a confirmation code";
+    return;
+  }
+  if (confirmationCode === code.toString()) {
+    confirmationForm.classList.add("hidden");
+    chatSection.classList.remove("hidden");
+  } else {
+    errorMessage.textContent = "Invalid confirmation code";
   }
 });
