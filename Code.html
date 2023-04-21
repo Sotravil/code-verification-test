@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Sign Up with Phone</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+	<div class="container">
+		<h1>Sign Up with Phone</h1>
+		<form id="signup-form">
+			<label for="username">Username</label>
+			<input type="text" id="username" name="username" required>
+
+			<label for="phone">Phone Number</label>
+			<input type="tel" id="phone" name="phone" required>
+
+			<button type="submit">Sign Up</button>
+		</form>
+		<div id="chat-page" class="hidden">
+			<h2>Welcome, <span id="user"></span>!</h2>
+			<p>A 6-digit confirmation code has been sent to your phone number.</p>
+			<form id="confirmation-form">
+				<label for="confirmation-code">Enter Code</label>
+				<input type="text" id="confirmation-code" name="confirmation-code" required>
+				<button type="submit">Confirm</button>
+			</form>
+		</div>
+	</div>
+
+	<script src="script.js"></script>
+</body>
+</html>
