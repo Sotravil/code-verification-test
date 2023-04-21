@@ -13,6 +13,7 @@ const confirmationPhone = document.getElementById("confirmation-phone");
 const backButton = document.getElementById("back-button");
 
 let code;
+let username;
 
 function generateCode() {
   // Generate a 6-digit code
@@ -37,7 +38,7 @@ function generateCode() {
 
 usernameForm.addEventListener("submit", (event) => {
   event.preventDefault();
-  const username = event.target.elements.username.value;
+  username = event.target.elements.username.value;
   if (username.trim() === "") {
     errorMessage.textContent = "Please enter a username";
     return;
@@ -57,7 +58,7 @@ phoneForm.addEventListener("submit", (event) => {
   phoneHeader.textContent = phoneNumber;
   generateCode();
   phoneForm.classList.add("hidden");
-  confirmationUsername.textContent = usernameHeader.textContent;
+  confirmationUsername.textContent = username;
   confirmationPhone.textContent = phoneHeader.textContent;
   confirmationForm.classList.remove("hidden");
 });
