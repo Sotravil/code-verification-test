@@ -21,22 +21,22 @@
         <form id="phone-form" style="display: none;">
           <div class="form-group">
             <label for="phone-number">Phone Number:</label>
-            <input type="text" id="phone-number" name="phone-number" required />
+            <input type="text" id="phone" name="phone" required />
           </div>
           <button type="submit" class="btn">Sign Up</button>
         </form>
         <form id="confirmation-form" style="display: none;">
           <div class="form-group">
             <label for="username-confirmation">Username:</label>
-            <p id="username-confirmation"></p>
+            <p id="confirmation-username"></p>
           </div>
           <div class="form-group">
             <label for="phone-number-confirmation">Phone Number:</label>
-            <p id="phone-number-confirmation"></p>
+            <p id="confirmation-phone"></p>
           </div>
           <div class="form-group">
-            <label for="code">Confirmation Code:</label>
-            <input type="text" id="code" name="code" required />
+            <label for="confirmation-code-input">Confirmation Code:</label>
+            <input type="text" id="confirmation-code-input" name="confirmation-code-input" required />
           </div>
           <p class="back-link">Go back to phone number form</p>
           <button type="submit" class="btn">Confirm Sign Up</button>
@@ -44,8 +44,8 @@
       </div>
       <div class="chat-container" style="display: none;">
         <div class="header">
-          <h2 id="chat-username"></h2>
-          <h2 id="chat-phone-number"></h2>
+          <h2 id="username-header"></h2>
+          <h2 id="phone-header"></h2>
         </div>
         <div class="chat">
           <div class="message received">
