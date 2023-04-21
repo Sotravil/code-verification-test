@@ -1,65 +1,44 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sign Up</title>
-    <link rel="stylesheet" href="style.css" />
-    <script src="script.js"></script>
-  </head>
-  <body>
-    <div class="container">
-      <div class="form-container">
-        <h2>Sign Up</h2>
-        <form id="username-form">
-          <div class="form-group">
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="username" required />
-          </div>
-          <button type="submit" class="btn">Next</button>
-        </form>
-        <form id="phone-form" style="display: none;">
-          <div class="form-group">
-            <label for="phone-number">Phone Number:</label>
-            <input type="text" id="phone" name="phone" required />
-          </div>
-          <button type="submit" class="btn">Sign Up</button>
-        </form>
-        <form id="confirmation-form" style="display: none;">
-          <div class="form-group">
-            <label for="username-confirmation">Username:</label>
-            <p id="confirmation-username"></p>
-          </div>
-          <div class="form-group">
-            <label for="phone-number-confirmation">Phone Number:</label>
-            <p id="confirmation-phone"></p>
-          </div>
-          <div class="form-group">
-            <label for="confirmation-code-input">Confirmation Code:</label>
-            <input type="text" id="confirmation-code-input" name="confirmation-code-input" required />
-          </div>
-          <p class="back-link">Go back to phone number form</p>
-          <button type="submit" class="btn">Confirm Sign Up</button>
-        </form>
+<head>
+  <meta charset="UTF-8">
+  <title>Sign Up Form</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Sign Up Form</h1>
+    <form id="username-form">
+      <label for="username-input">Username:</label>
+      <input type="text" id="username-input" name="username" required>
+      <button type="submit">Next</button>
+    </form>
+    <form id="phone-form" class="hidden">
+      <label for="phone-input">Phone Number:</label>
+      <input type="text" id="phone-input" name="phone" required>
+      <button type="submit">Sign Up</button>
+    </form>
+    <form id="confirmation-form" class="hidden">
+      <h2>Confirmation Details:</h2>
+      <p>Username: <span id="username-output"></span></p>
+      <p>Phone Number: <span id="phone-output"></span></p>
+      <button type="button" id="back-button">Back</button>
+      <button type="submit">Confirm</button>
+    </form>
+    <div id="chat-section" class="hidden">
+      <div id="chat-header">
+        <div id="username-header"></div>
+        <div id="phone-header"></div>
       </div>
-      <div class="chat-container" style="display: none;">
-        <div class="header">
-          <h2 id="username-header"></h2>
-          <h2 id="phone-header"></h2>
-        </div>
-        <div class="chat">
-          <div class="message received">
-            <p>Hello!</p>
-          </div>
-          <div class="message sent">
-            <p>Hi there!</p>
-          </div>
-        </div>
-        <div class="message-box">
-          <input type="text" placeholder="Type a message" />
-          <button class="send-btn">Send</button>
-        </div>
-      </div>
+      <div id="chat-messages"></div>
+      <form id="message-form">
+        <input type="text" id="message-input" name="message" required>
+        <button type="submit">Send</button>
+      </form>
     </div>
-  </body>
+    <a id="download-link" style="display:none"></a>
+    <div id="error-message"></div>
+  </div>
+  <script src="script.js"></script>
+</body>
 </html>
