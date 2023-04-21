@@ -1,32 +1,43 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Sign Up with Phone</title>
-	<link rel="stylesheet" type="text/css" href="style.css">
+  <meta charset="UTF-8">
+  <title>Sign Up Form</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-	<div class="container">
-		<h1>Sign Up with Phone</h1>
-		<form id="signup-form">
-			<label for="username">Username</label>
-			<input type="text" id="username" name="username" required>
-
-			<label for="phone">Phone Number</label>
-			<input type="tel" id="phone" name="phone" required>
-
-			<button type="submit">Sign Up</button>
-		</form>
-		<div id="chat-page" class="hidden">
-			<h2>Welcome, <span id="user"></span>!</h2>
-			<p>A 6-digit confirmation code has been sent to your phone number.</p>
-			<form id="confirmation-form">
-				<label for="confirmation-code">Enter Code</label>
-				<input type="text" id="confirmation-code" name="confirmation-code" required>
-				<button type="submit">Confirm</button>
-			</form>
-		</div>
-	</div>
-
-	<script src="script.js"></script>
+  <div class="container">
+    <h1>Sign Up Form</h1>
+    <form id="username-form">
+      <label for="username-input">Username:</label>
+      <input type="text" id="username-input" name="username" required>
+      <button type="submit">Next</button>
+    </form>
+    <form id="phone-form" class="hidden">
+      <label for="phone-input">Phone Number:</label>
+      <input type="text" id="phone-input" name="phone" required>
+      <button type="submit">Sign Up</button>
+    </form>
+    <form id="confirmation-form" class="hidden">
+      <h2>Confirmation Details:</h2>
+      <p>Username: <span id="username-output"></span></p>
+      <p>Phone Number: <span id="phone-output"></span></p>
+      <button type="button" id="back-button">Back</button>
+      <button type="submit">Confirm</button>
+    </form>
+    <div id="chat" class="hidden">
+      <div id="chat-header">
+        <div id="username-header"></div>
+        <div id="phone-header"></div>
+      </div>
+      <div id="chat-messages"></div>
+      <form id="message-form">
+        <input type="text" id="message-input" name="message" required>
+        <button type="submit">Send</button>
+      </form>
+    </div>
+    <a id="download-link" style="display:none"></a>
+  </div>
+  <script src="script.js"></script>
 </body>
 </html>
