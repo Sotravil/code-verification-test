@@ -1,63 +1,107 @@
-// Get form elements
+// Get the forms and error message elements
 const usernameForm = document.getElementById("username-form");
 const phoneForm = document.getElementById("phone-form");
 const confirmationForm = document.getElementById("confirmation-form");
-
-// Get input elements
-const usernameInput = document.getElementById("username");
-const phoneInput = document.getElementById("phone");
+const chatSection = document.getElementById("chat");
 const confirmationCodeInput = document.getElementById("confirmation-code-input");
-
-// Get confirmation elements
-const confirmationUsername = document.getElementById("confirmation-username");
-const confirmationPhone = document.getElementById("confirmation-phone");
-
-// Get chat elements
-const chatContainer = document.getElementById("chat-container");
+const confirmationCodeForm = document.getElementById("confirmation-code-form");
+const errorMessage = document.getElementById("error-message");
 const usernameHeader = document.getElementById("username-header");
 const phoneHeader = document.getElementById("phone-header");
-const messageBox = document.querySelector(".message-box");
-const sendBtn = document.querySelector(".send-btn");
+const confirmationUsername = document.getElementById("confirmation-username");
+const confirmationPhone = document.getElementById("confirmation-phone");
+const backButton = document.getElementById("back-button");
 
-// Handle form submissions
+let code;
+
+function generateCode() {
+  // Generate a 6-digit code
+  code = Math.floor(100000 + Math.random() * 900000);
+
+  // Create a Blob object to save the code as a text file
+  const blob = new Blob([code], { type: "text/plain;charset=utf-8" });
+
+  // Create a temporary anchor element to download the file
+  const anchor = document.createElement("a");
+  anchor.download = "code.txt";
+  anchor.href = window.URL.createObjectURL(blob);
+  anchor.style.display = "none";
+  document.body.appendChild(anchor);
+
+  // Trigger a click event on the anchor element to download the file
+  anchor.click();
+
+  // Remove the anchor element
+  document.body.removeChild(anchor);
+}
+
 usernameForm.addEventListener("submit", (event) => {
   event.preventDefault();
-  phoneForm.style.display = "block";
-  usernameForm.style.display = "none";
+  const username = event.target.elements.username.value;
+  if (username.trim() === "") {
+    errorMessage.textContent = "Please enter a username";
+    return;
+  }
+  usernameHeader.textContent = username;
+  usernameForm.classList.add("hidden");
+  phoneForm.classList.remove("hidden");
 });
 
 phoneForm.addEventListener("submit", (event) => {
   event.preventDefault();
-  confirmationUsername.textContent = usernameInput.value;
-  confirmationPhone.textContent = phoneInput.value;
-  confirmationForm.style.display = "block";
-  phoneForm.style.display = "none";
-});
-
-confirmationForm.addEventListener("submit", (event) => {
-  event.preventDefault();
-  chatContainer.style.display = "block";
-  confirmationForm.style.display = "none";
-  usernameHeader.textContent = usernameInput.value;
-  phoneHeader.textContent = phoneInput.value;
-});
-
-// Handle going back to phone number form
-const backLink = document.querySelector(".back-link");
-backLink.addEventListener("click", () => {
-  confirmationForm.style.display = "none";
-  phoneForm.style.display = "block";
-});
-
-// Handle sending a message
-sendBtn.addEventListener("click", () => {
-  const message = messageBox.querySelector("input").value;
-  if (message) {
-    const sentMessage = document.createElement("div");
-    sentMessage.classList.add("message", "sent");
-    sentMessage.innerHTML = `<p>${message}</p>`;
-    const chat = chatContainer.querySelector(".chat");
-    chat.appendChild(sentMessage);
-    messageBox.querySelector("input").value = "";
+  const phoneNumber = event.target.elements.phone.value;
+  if (phoneNumber.trim() === "") {
+    errorMessage.textContent = "Please enter a phone number";
+    return;
   }
+  phoneHeader.textContent = phoneNumber;
+  generateCode();
+  phoneForm.classList.add("hidden");
+  confirmationUsername.textContent = usernameHeader.textContent;
+  confirmationPhone.textContent = phoneHeader.textContent;
+  confirmationForm.classList.remove("hidden");
+});
+
+backButton.addEventListener("click", (event) => {
+  event.preventDefault();
+  confirmationForm.classList.add("hidden");
+  phoneForm.classList.remove("hidden");
+});
+
+confirmationCodeForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  const confirmationCode = confirmationCodeInput.value;
+  if (confirmationCode.trim() === "") {
+    errorMessage.textContent = "Please enter a confirmation code";
+    return;
+  }
+  if (confirmationCode === code.toString()) {
+    confirmationForm.classList.add("hidden");
+    chatSection.classList.remove("hidden");
+  } else {
+    errorMessage.textContent = "Invalid confirmation code";
+  }
+});
+
+const chatMessages = document.getElementById("chat-messages");
+const messageForm = document.getElementById("message-form");
+const messageInput = document.getElementById("message-input");
+
+messageForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  const message = messageInput.value;
+  if (message.trim() === "") {
+    return;
+  }
+  const username = usernameHeader.textContent;
+  const phoneNumber = phoneHeader.textContent;
+  const timestamp = new Date().toLocaleTimeString();
+  const messageElement = document.createElement("div");
+  messageElement.classList.add("message");
+  messageElement.innerHTML = `
+    <p><strong>${username}</strong> (${phoneNumber}) <span>${timestamp}</span></p>
+    <p>${message}</p>
+  `;
+  chatMessages.appendChild(messageElement);
+  messageInput.value = "";
 });
